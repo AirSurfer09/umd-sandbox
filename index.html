@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Convai Pixel Stream Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@airsurfer09/web-embed/dist/core/convai-embed.umd.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f0f0f0;
+      }
+
+      #pixel-stream-container {
+        width: 100%;
+        height: 600px;
+        background: #000;
+        margin-bottom: 16px;
+        position: relative;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      button {
+        padding: 10px 16px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Convai Pixel Stream Demo</h1>
+    <div id="pixel-stream-container"></div>
+
+    <div class="controls">
+      <button onclick="pixelStream.initializeExperience()">Initialize</button>
+      <button onclick="pixelStream.enableCamera()">Enable Camera</button>
+      <button onclick="pixelStream.disableCamera()">Disable Camera</button>
+      <button onclick="pixelStream.enableCharacterAudio()">Enable Audio</button>
+      <button onclick="pixelStream.disableCharacterAudio()">
+        Disable Audio
+      </button>
+      <button onclick="pixelStream.destroy()">Destroy</button>
+    </div>
+
+    <script>
+      const container = document.getElementById("pixel-stream-container");
+
+      const customInitialScreen = document.createElement("div");
+      customInitialScreen.style.cssText = `
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        font-family: Arial, sans-serif;
+      `;
+      customInitialScreen.innerHTML = `
+        <div style="text-align: center;">
+          <h2>Welcome to the Experience</h2>
+          <p>Click anywhere to start</p>
+        </div>
+      `;
+
+      const pixelStream = new PixelStreamCore.PixelStreamClient({
+        expId: "01ad2713-e35b-4e79-9814-05db90bf1151",
+        container: container,
+        InitialScreen: customInitialScreen,
+        // Optional service URLs:
+        // serviceUrls: {
+        //   sessionFetch: 'your-custom-session-url',
+        //   pixelStreamBase: 'your-custom-base-url',
+        // },
+      });
+
+      window.pixelStream = pixelStream;
+    </script>
+  </body>
+</html>
