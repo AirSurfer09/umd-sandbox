@@ -39,14 +39,11 @@
     <div id="pixel-stream-container"></div>
 
     <div class="controls">
-      <button onclick="pixelStream.initializeExperience()">Initialize</button>
-      <button onclick="pixelStream.enableCamera()">Enable Camera</button>
-      <button onclick="pixelStream.disableCamera()">Disable Camera</button>
-      <button onclick="pixelStream.enableCharacterAudio()">Enable Audio</button>
-      <button onclick="pixelStream.disableCharacterAudio()">
-        Disable Audio
-      </button>
-      <button onclick="pixelStream.destroy()">Destroy</button>
+      <button id="startBtn">Start Experience</button>
+      <button id="enableCameraBtn" disabled>Enable Camera</button>
+      <button id="disableCameraBtn" disabled>Disable Camera</button>
+      <button id="enableAudioBtn" disabled>Enable Audio</button>
+      <button id="disableAudioBtn" disabled>Disable Audio</button>
     </div>
 
     <script>
@@ -86,6 +83,78 @@
       });
 
       window.pixelStream = pixelStream;
+
+      // Get button references
+      const startBtn = document.getElementById("startBtn");
+      const enableCameraBtn = document.getElementById("enableCameraBtn");
+      const disableCameraBtn = document.getElementById("disableCameraBtn");
+      const enableAudioBtn = document.getElementById("enableAudioBtn");
+      const disableAudioBtn = document.getElementById("disableAudioBtn");
+      // Start experience button
+      startBtn.addEventListener("click", () => {
+        pixelStream.initializeExperience();
+        startBtn.disabled = true;
+        enableCameraBtn.disabled = false;
+        enableAudioBtn.disabled = false;
+      });
+      // Camera controls
+      enableCameraBtn.addEventListener("click", async () => {
+        try {
+          enableCameraBtn.disabled = true;
+          const success = await pixelStream.enableCamera();
+          if (success) {
+            disableCameraBtn.disabled = false;
+          } else {
+            enableCameraBtn.disabled = false;
+          }
+        } catch (error) {
+          console.error("Failed to enable camera:", error);
+          enableCameraBtn.disabled = false;
+        }
+      });
+      disableCameraBtn.addEventListener("click", async () => {
+        try {
+          disableCameraBtn.disabled = true;
+          const success = await pixelStream.disableCamera();
+          if (success) {
+            enableCameraBtn.disabled = false;
+          } else {
+            disableCameraBtn.disabled = false;
+          }
+        } catch (error) {
+          console.error("Failed to disable camera:", error);
+          disableCameraBtn.disabled = false;
+        }
+      });
+      // Audio controls
+      enableAudioBtn.addEventListener("click", async () => {
+        try {
+          enableAudioBtn.disabled = true;
+          const success = await pixelStream.enableCharacterAudio();
+          if (success) {
+            disableAudioBtn.disabled = false;
+          } else {
+            enableAudioBtn.disabled = false;
+          }
+        } catch (error) {
+          console.error("Failed to enable audio:", error);
+          enableAudioBtn.disabled = false;
+        }
+      });
+      disableAudioBtn.addEventListener("click", async () => {
+        try {
+          disableAudioBtn.disabled = true;
+          const success = await pixelStream.disableCharacterAudio();
+          if (success) {
+            enableAudioBtn.disabled = false;
+          } else {
+            disableAudioBtn.disabled = false;
+          }
+        } catch (error) {
+          console.error("Failed to disable audio:", error);
+          disableAudioBtn.disabled = false;
+        }
+      });
     </script>
   </body>
 </html>
